@@ -5,3 +5,7 @@ Content-Type: application/json
   "username": "john",
   "password": "changeme"
 } 
+###
+
+GET http://localhost:3000/auth/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJzdWIiOjEsImlhdCI6MTc3MDQ0NTgyMywiZXhwIjoxNzcwNDQ1ODgzfQ.KhrZYFoagVTnCPIQlK1A_tMgNTrmLAaZSnNcKX1-CEM 
