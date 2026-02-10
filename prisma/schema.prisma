@@ -1,9 +1,10 @@
-datasource db {
-  provider = "postgresql"
-}
-
+// schema.prisma
 generator client {
   provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
 }
 
 enum Role {
@@ -30,13 +31,20 @@ model Tenant {
   users         User[]
   subscriptions Subscription[]
   branches      Branch[]
-  products      Product[] // <-- added
-  customers     Customer[] // <-- added
-  suppliers     Supplier[] // <-- added
-  purchases     Purchase[] // <-- added
-  sales         Sale[] // <-- added
-  expenses      Expense[] // <-- added
-  auditLogs     AuditLog[] // <-- added
+
+  products Product[]
+
+  customers Customer[]
+
+  suppliers Supplier[]
+
+  purchases Purchase[]
+
+  sales Sale[]
+
+  expenses Expense[]
+
+  auditLogs AuditLog[]
 }
 
 model User {
@@ -47,9 +55,10 @@ model User {
   email     String     @unique
   password  String
   roles     UserRole[]
-  auditLogs AuditLog[] // <-- added back-relation
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+
+  auditLogs AuditLog[]
 }
 
 model RoleEntity {
@@ -71,7 +80,7 @@ model Subscription {
   tenant    Tenant           @relation(fields: [tenantId], references: [id])
   tenantId  String
   plan      SubscriptionPlan
-  status    String           @default("active")
+  status    String           @default("active") // active, canceled, trial
   startDate DateTime         @default(now())
   endDate   DateTime?
   stripeId  String?
@@ -147,9 +156,9 @@ model Supplier {
 }
 
 model Purchase {
-  id          String   @id @default(cuid())
-  tenantId    String
-  tenant      Tenant   @relation(fields: [tenantId], references: [id])
+  id       String @id @default(cuid())
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
   supplier    Supplier @relation(fields: [supplierId], references: [id])
   supplierId  String
   totalAmount Float
@@ -167,7 +176,7 @@ model Sale {
   customer    Customer?  @relation(fields: [customerId], references: [id])
   totalAmount Float
   paymentType String
-  status      String     @default("completed")
+  status      String     @default("completed") // completed, refunded
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   items       SaleItem[]
