@@ -1,19 +1,17 @@
-// database.service.ts
-import { neon } from '@neondatabase/serverless';
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
 
 @Injectable()
-export class PrismaService {
-    private readonly sql;
-  user: any;
+export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
+  constructor() {
+    super( );
+  }
 
-    constructor(private configService: ConfigService) {
-        const databaseUrl = this.configService.get('DATABASE_URL');
-        this.sql = neon(databaseUrl);
-    }
-        async getData() {
-        const data = await this.sql`...`;
-        return data;
-    }
+  async onModuleInit() {
+    await this.$connect();
+  }
+
+  async onModuleDestroy() {
+    await this.$disconnect();
+  }
 }

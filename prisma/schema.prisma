@@ -48,18 +48,20 @@ model Tenant {
 }
 
 model User {
-  id        String     @id @default(cuid())
-  tenantId  String
-  tenant    Tenant     @relation(fields: [tenantId], references: [id])
-  name      String
-  email     String     @unique
-  password  String
-  roles     UserRole[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id           String     @id @default(cuid())
+  tenantId     String
+  tenant       Tenant     @relation(fields: [tenantId], references: [id])
+  name         String
+  email        String     @unique
+  password     String
+  roles        UserRole[]  // keeps your existing roles relation
+  refreshToken String?     // add this for refresh token
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
-  auditLogs AuditLog[]
+  auditLogs    AuditLog[]
 }
+
 
 model RoleEntity {
   id    String     @id @default(cuid())

@@ -13,7 +13,7 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-  ) {}
+  ) { }
 
   // ======================
   // Validate user (LocalStrategy)
@@ -42,7 +42,7 @@ export class AuthService {
     const payload = {
       sub: user.id,
       email: user.email,
-      role: user.role,
+      roles: user.roles.map(r => r.name),
       tenantId: user.tenantId,
     };
 
@@ -87,7 +87,7 @@ export class AuthService {
     const payload = {
       sub: user.id,
       email: user.email,
-      role: user.role,
+      roles: user.roles.map((r: any) => r.name),
       tenantId: user.tenantId,
     };
 

@@ -3,7 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   // ======================
   // Find user by email
@@ -18,10 +18,10 @@ export class UsersService {
   // Find user by ID
   // ======================
   async findById(id: string) {
-    return this.prisma.user.findUnique({
-      where: { id },
-    });
+    return this.prisma.user.findUnique({ where: { id }, include: { roles: true }   });
   }
+
+  
 
   // ======================
   // Create user (Register)
@@ -31,6 +31,7 @@ export class UsersService {
     password: string;
     role: string;
     tenantId: string;
+    name: string;
   }) {
     return this.prisma.user.create({
       data,
@@ -47,6 +48,7 @@ export class UsersService {
     });
   }
 
+
   // ======================
   // Remove refresh token (Logout)
   // ======================
@@ -56,4 +58,5 @@ export class UsersService {
       data: { refreshToken: null },
     });
   }
+
 }
