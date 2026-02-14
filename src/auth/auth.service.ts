@@ -1,133 +1,90 @@
 import {
+  ConflictException,
   Injectable,
   UnauthorizedException,
-  ForbiddenException,
 } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-
-import { UsersService } from '../users/users.service';
+import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService,
-  ) { }
+    private readonly prisma: PrismaService,
+    private readonly jwt: JwtService,
+  ) {}
 
-  // ======================
-  // Validate user (LocalStrategy)
-  // ======================
-  async validateUser(email: string, password: string) {
-    const user = await this.usersService.findByEmail(email);
+  async signup(dto: RegisterDto) {
+    const existing = await this.prisma.user.findUnique({
+      where: { email: dto.email },
+    });
 
-    if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+    if (existing) {
+      throw new ConflictException('Email already exists');
     }
 
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    const hashedPassword = await bcrypt.hash(dto.password, 12);
 
-    if (!passwordMatch) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
+    return this.prisma.$transaction(async (tx) => {
+      const tenant = await tx.tenant.create({
+        data: {
+          name: dto.shopName,
+          currency: dto.currency,
+          taxRate: dto.taxRate,
+        },
+      });
 
-    const { password: _, ...result } = user;
-    return result;
+      const user = await tx.user.create({
+        data: {
+          name: dto.OwnerName,
+          email: dto.email,
+          password: hashedPassword,
+          role: 'ADMIN',
+          tenantId: tenant.id,
+        },
+      });
+
+      await tx.subscription.create({
+        data: {
+          tenantId: tenant.id,
+          plan: 'BASIC',
+          isActive: true,
+          expiresAt: new Date(
+            Date.now() + 14 * 24 * 60 * 60 * 1000,
+          ),
+        },
+      });
+
+      const token = this.generateToken(user);
+
+      return {
+        accessToken: token,
+      };
+    });
   }
 
-  // ======================
-  // Login
-  // ======================
-  async login(user: any) {
-    const payload = {
+  async login(dto: LoginDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { email: dto.email },
+    });
+
+    if (!user) throw new UnauthorizedException();
+
+    const valid = await bcrypt.compare(dto.password, user.password);
+    if (!valid) throw new UnauthorizedException();
+
+    const token = this.generateToken(user);
+
+    return { accessToken: token };
+  }
+
+  private generateToken(user: any) {
+    return this.jwt.sign({
       sub: user.id,
-      email: user.email,
-      roles: user.roles.map(r => r.name),
       tenantId: user.tenantId,
-    };
-
-    const accessToken = this.jwtService.sign(payload, {
-      expiresIn: '15m',
+      role: user.role,
     });
-
-    const refreshToken = this.jwtService.sign(payload, {
-      expiresIn: '7d',
-    });
-
-    // store hashed refresh token in DB
-    const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
-
-    await this.usersService.updateRefreshToken(user.id, hashedRefreshToken);
-
-    return {
-      accessToken,
-      refreshToken,
-    };
-  }
-
-  // ======================
-  // Refresh Token
-  // ======================
-  async refreshTokens(userId: string, refreshToken: string) {
-    const user = await this.usersService.findById(userId);
-
-    if (!user || !user.refreshToken) {
-      throw new ForbiddenException('Access denied');
-    }
-
-    const refreshTokenMatches = await bcrypt.compare(
-      refreshToken,
-      user.refreshToken,
-    );
-
-    if (!refreshTokenMatches) {
-      throw new ForbiddenException('Invalid refresh token');
-    }
-
-    const payload = {
-      sub: user.id,
-      email: user.email,
-      roles: user.roles.map((r: any) => r.name),
-      tenantId: user.tenantId,
-    };
-
-    const newAccessToken = this.jwtService.sign(payload, {
-      expiresIn: '15m',
-    });
-
-    const newRefreshToken = this.jwtService.sign(payload, {
-      expiresIn: '7d',
-    });
-
-    const hashedRefreshToken = await bcrypt.hash(newRefreshToken, 10);
-
-    await this.usersService.updateRefreshToken(user.id, hashedRefreshToken);
-
-    return {
-      accessToken: newAccessToken,
-      refreshToken: newRefreshToken,
-    };
-  }
-
-  // ======================
-  // Logout
-  // ======================
-  async logout(userId: string) {
-    await this.usersService.removeRefreshToken(userId);
-    return { message: 'Logged out successfully' };
-  }
-
-  // ======================
-  // Register User (optional)
-  // ======================
-  async register(dto: any) {
-    const hashedPassword = await bcrypt.hash(dto.password, 10);
-
-    const user = await this.usersService.create({
-      ...dto,
-      password: hashedPassword,
-    });
-
-    return this.login(user);
   }
 }

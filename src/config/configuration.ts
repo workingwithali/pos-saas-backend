@@ -1,9 +1,5 @@
 export default () => ({
-  database: {
-    url: process.env.DATABASE_URL!,
-  },
-  jwt: {
-    secret: process.env.JWT_SECRET!,
-    refreshSecret: process.env.JWT_REFRESH_SECRET!,
-  },
+  port: parseInt(process.env.PORT || '3000', 10),
+  jwtSecret: process.env.JWT_SECRET,
+  jwtExpiresIn: process.env.JWT_EXPIRES_IN,
 });

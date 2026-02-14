@@ -18,7 +18,7 @@ export class UsersService {
   // Find user by ID
   // ======================
   async findById(id: string) {
-    return this.prisma.user.findUnique({ where: { id }, include: { roles: true }   });
+    return this.prisma.user.findUnique({ where: { id } });
   }
 
   
@@ -27,36 +27,21 @@ export class UsersService {
   // Create user (Register)
   // ======================
   async create(data: {
-    email: string;
-    password: string;
-    role: string;
-    tenantId: string;
-    name: string;
-  }) {
-    return this.prisma.user.create({
-      data,
-    });
-  }
-
-  // ======================
-  // Save hashed refresh token
-  // ======================
-  async updateRefreshToken(userId: string, refreshToken: string) {
-    return this.prisma.user.update({
-      where: { id: userId },
-      data: { refreshToken },
-    });
-  }
-
-
-  // ======================
-  // Remove refresh token (Logout)
-  // ======================
-  async removeRefreshToken(userId: string) {
-    return this.prisma.user.update({
-      where: { id: userId },
-      data: { refreshToken: null },
-    });
-  }
+  email: string;
+  password: string;
+  tenantId: string;
+  name: string;
+  role: "ADMIN"; // e.g., "ADMIN"
+}) {
+  return this.prisma.user.create({
+    data: {
+      email: data.email,
+      password: data.password,
+      tenantId: data.tenantId,
+      name: data.name,
+      role: data.role
+    }
+  });
+}
 
 }

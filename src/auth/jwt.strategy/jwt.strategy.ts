@@ -8,16 +8,16 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly configService: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: configService.getOrThrow<string>('jwt.secret'),
+      secretOrKey: configService.getOrThrow<string>('JWT_SECRET'),
     });
   }
 
   async validate(payload: any) {
+    console.log('JWT payload:', payload); // 🔴 must print
     return {
       userId: payload.sub,
-      email: payload.email,
-      role: payload.role,
       tenantId: payload.tenantId,
+      role: payload.role,
     };
   }
 }

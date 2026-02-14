@@ -1,56 +1,60 @@
-### ---------------- Register User ----------------
-POST http://localhost:3000/auth/register
-Content-Type: application/json
+### =========================================
+### BASE URL
+### =========================================
+
+@baseUrl = http://localhost:3000
+@contentType = application/json
+
+
+### =========================================
+### 1️⃣ SIGNUP (Create Tenant + Admin)
+### =========================================
+
+POST {{baseUrl}}/auth/signup
+Content-Type: {{contentType}}
 
 {
-  "email": "john@example.com",
-  "password": "changeme",
-  "role": "admin",
-  "tenantId": "tenant_123"
+  "shopName": "Ali Electronics",
+  "OwnerName": "new admin",
+  "currency": "PKR",
+  "taxRate": 15,
+  "email": "admin@alilctrnics.com",
+  "password": "password123"
 }
 
-###
 
-### ---------------- Login ----------------
-POST http://localhost:3000/auth/login
-Content-Type: application/json
+### =========================================
+### 2️⃣ LOGIN
+### =========================================
+
+POST {{baseUrl}}/auth/login
+Content-Type: {{contentType}}
 
 {
-  "email": "john@example.com",
-  "password": "changeme"
+  "email": "admin@alilctrnics.com",
+  "password": "password123"
 }
 
-# Response:
-# {
-#   "accessToken": "<ACCESS_TOKEN>"
-# }
-# Refresh token stored in httpOnly cookie.
 
-###
+### =========================================
+### 3️⃣ SAVE TOKEN (MANUAL)
+### After login, copy accessToken and paste below
+### =========================================
 
-### ---------------- Get Current User (Protected + Tenant) ----------------
-GET http://localhost:3000/auth/me
-Authorization: Bearer <ACCESS_TOKEN_FROM_LOGIN>
-x-tenant-id: tenant_123
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbWxsbDI5YmMwMDAxOXd2YmNybDBua2pwIiwidGVuYW50SWQiOiJjbWxsbDI5NGgwMDAwOXd2YmFieGlvY2FtIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzcxMDMwODU3LCJleHAiOjE3NzEwMzA4NTh9.8XLDGG8nI26bkNOBYs6JNpnFmNV3GBVyZcAtZQAPIlE
 
-###
 
-### ---------------- Refresh Access Token ----------------
-POST http://localhost:3000/auth/refresh
-Cookie: refresh_token=<REFRESH_TOKEN_COOKIE>
+### =========================================
+### 4️⃣ GET CURRENT USER
+### =========================================
 
-# Response:
-# {
-#   "accessToken": "<NEW_ACCESS_TOKEN>"
-# }
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{token}}
 
-###
 
-### ---------------- Logout ----------------
-POST http://localhost:3000/auth/logout
-Authorization: Bearer <ACCESS_TOKEN_FROM_LOGIN>
+### =========================================
+### 5️⃣ TEST PROTECTED ROUTE (Example)
+### =========================================
 
-# Response:
-# {
-#   "message": "Logged out successfully"
-# }
+GET {{baseUrl}}/products
+Authorization: Bearer {{token}}
