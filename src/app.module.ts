@@ -9,11 +9,9 @@ import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
 import { SalesModule } from './sales/sales.module';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
-import configuration from './config/configuration';
-
 import { CategoriesModule } from './categories/categories.module';
-
 import { DashboardModule } from './dashboard/dashboard.module';
+import configuration from './config/configuration';
 
 @Module({
   imports: [

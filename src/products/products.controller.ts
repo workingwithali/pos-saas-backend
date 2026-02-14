@@ -3,12 +3,13 @@ import { ApiTags } from "@nestjs/swagger";
 import { ProductsService } from "./products.service";
 import { JwtAuthGuard } from "src/common/guards/jwt-auth/jwt-auth.guard";
 import { TenantGuard } from "src/common/guards/tenant/tenant.guard";
+import { SubscriptionGuard } from "src/common/guards/subscription/subscription.guard";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { Tenant } from "src/common/decorators/tenant.decorator/tenant.decorator";
 
 @ApiTags('Products')
-@UseGuards(JwtAuthGuard, TenantGuard)
+@UseGuards(JwtAuthGuard, TenantGuard, SubscriptionGuard)
 @Controller('products')
 export class ProductsController {
   constructor(private service: ProductsService) { }

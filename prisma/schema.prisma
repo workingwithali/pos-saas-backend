@@ -20,7 +20,9 @@ enum PaymentMethod {
 }
 
 enum SubscriptionPlan {
+  TRIAL
   BASIC
+  PRO
 }
 
 //////////////////////////

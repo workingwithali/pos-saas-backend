@@ -1,20 +1,21 @@
-import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from "@nestjs/common";
-import { PrismaService } from "src/prisma/prisma.service";
+import { CanActivate, ExecutionContext, Injectable, ForbiddenException } from '@nestjs/common';
+import { SubscriptionsService } from '../../../subscriptions/subscriptions.service';
 
 @Injectable()
 export class SubscriptionGuard implements CanActivate {
-  constructor(private prisma: PrismaService) {}
+  constructor(private subscriptionsService: SubscriptionsService) { }
 
-  async canActivate(context: ExecutionContext) {
-    const req = context.switchToHttp().getRequest();
-    const tenantId = req.user.tenantId;
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const request = context.switchToHttp().getRequest();
+    const user = request.user;
 
-    const sub = await this.prisma.subscription.findFirst({
-      where: { tenantId },
-    });
+    if (!user || !user.tenantId) {
+      return false; // Or throw Unauthorized
+    }
 
-    if (!sub || !sub.isActive || sub.expiresAt < new Date()) {
-      throw new ForbiddenException('Subscription expired');
+    const isValid = await this.subscriptionsService.checkSubscriptionStatus(user.tenantId);
+    if (!isValid) {
+      throw new ForbiddenException('Subscription expired or inactive');
     }
 
     return true;

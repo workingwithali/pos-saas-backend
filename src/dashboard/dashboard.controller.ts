@@ -3,10 +3,11 @@ import { ApiTags } from '@nestjs/swagger';
 import { DashboardService } from './dashboard.service';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth/jwt-auth.guard';
 import { TenantGuard } from 'src/common/guards/tenant/tenant.guard';
+import { SubscriptionGuard } from "src/common/guards/subscription/subscription.guard";
 import { Tenant } from 'src/common/decorators/tenant.decorator/tenant.decorator';
 
 @ApiTags('Dashboard')
-@UseGuards(JwtAuthGuard, TenantGuard)
+@UseGuards(JwtAuthGuard, TenantGuard, SubscriptionGuard)
 @Controller('dashboard')
 export class DashboardController {
     constructor(private readonly dashboardService: DashboardService) { }
