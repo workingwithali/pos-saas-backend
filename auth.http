@@ -186,3 +186,28 @@ Authorization: Bearer {{token}}
 
 GET {{baseUrl}}/sales/cmlm33kt70003twvbko98ojgi
 Authorization: Bearer {{token}}
+
+#################################################
+############## DASHBOARD MODULE ################
+#################################################
+
+###=========================================
+###1️⃣ GET DASHBOARD METRICS (GET /dashboard/metrics)
+####=========================================
+
+GET {{baseUrl}}/dashboard/metrics
+Authorization: Bearer {{token}}
+
+###=========================================
+###2️⃣ GET TOP SELLING PRODUCTS (GET /dashboard/top-selling)
+###=========================================
+
+GET {{baseUrl}}/dashboard/top-selling
+Authorization: Bearer {{token}}
+
+###=========================================
+###3️⃣ GET LOW STOCK PRODUCTS (GET /dashboard/low-stock)
+###=========================================
+
+GET {{baseUrl}}/dashboard/low-stock
+Authorization: Bearer {{token}}

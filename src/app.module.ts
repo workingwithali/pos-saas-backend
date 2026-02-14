@@ -13,8 +13,11 @@ import configuration from './config/configuration';
 
 import { CategoriesModule } from './categories/categories.module';
 
+import { DashboardModule } from './dashboard/dashboard.module';
+
 @Module({
-  imports: [PrismaModule, AuthModule, TenantsModule, UsersModule, ProductsModule, SalesModule, SubscriptionsModule, CategoriesModule,
+  imports: [
+    PrismaModule, AuthModule, TenantsModule, UsersModule, ProductsModule, SalesModule, SubscriptionsModule, CategoriesModule, DashboardModule,
     ConfigModule.forRoot({ isGlobal: true, load: [configuration], }),
     ConfigModule,
   ],
