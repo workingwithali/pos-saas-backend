@@ -1,7 +1,6 @@
 ### =========================================
-### BASE URL
+### BASE CONFIG
 ### =========================================
-
 @baseUrl = http://localhost:3000
 @contentType = application/json
 
@@ -9,7 +8,6 @@
 ### =========================================
 ### 1️⃣ SIGNUP (Create Tenant + Admin)
 ### =========================================
-
 POST {{baseUrl}}/auth/signup
 Content-Type: {{contentType}}
 
@@ -26,7 +24,6 @@ Content-Type: {{contentType}}
 ### =========================================
 ### 2️⃣ LOGIN
 ### =========================================
-
 POST {{baseUrl}}/auth/login
 Content-Type: {{contentType}}
 
@@ -37,24 +34,118 @@ Content-Type: {{contentType}}
 
 
 ### =========================================
-### 3️⃣ SAVE TOKEN (MANUAL)
-### After login, copy accessToken and paste below
+### 3️⃣ SAVE TOKEN (PASTE AFTER LOGIN)
 ### =========================================
-
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbWxsbDI5YmMwMDAxOXd2YmNybDBua2pwIiwidGVuYW50SWQiOiJjbWxsbDI5NGgwMDAwOXd2YmFieGlvY2FtIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzcxMDMwODU3LCJleHAiOjE3NzEwMzA4NTh9.8XLDGG8nI26bkNOBYs6JNpnFmNV3GBVyZcAtZQAPIlE
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbWxsbDI5YmMwMDAxOXd2YmNybDBua2pwIiwidGVuYW50SWQiOiJjbWxsbDI5NGgwMDAwOXd2YmFieGlvY2FtIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzcxMDUyNTc4LCJleHAiOjE3NzExMzg5Nzh9.jgK9gaiqE35-N1gmDi0CaLjfMMtHtgFfBL_nc3DHDjw
 
 
 ### =========================================
 ### 4️⃣ GET CURRENT USER
 ### =========================================
-
 GET {{baseUrl}}/auth/me
 Authorization: Bearer {{token}}
 
 
-### =========================================
-### 5️⃣ TEST PROTECTED ROUTE (Example)
-### =========================================
+#################################################
+############## CATEGORIES MODULE ################
+#################################################
 
+### =========================================
+### 5️⃣ CREATE CATEGORY
+### =========================================
+POST {{baseUrl}}/categories
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "name": "Electronics"
+}
+
+
+### =========================================
+### 6️⃣ GET ALL CATEGORIES
+### =========================================
+GET {{baseUrl}}/categories
+Authorization: Bearer {{token}}
+
+
+### =========================================
+### 7️⃣ GET CATEGORY BY ID
+### =========================================
+GET {{baseUrl}}/categories/cmllz7coy0000b0vbst1ua94i
+Authorization: Bearer {{token}}
+
+
+### =========================================
+### 8️⃣ UPDATE CATEGORY
+### =========================================
+PATCH {{baseUrl}}/categories/cmllz7coy0000b0vbst1ua94i
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "name": "Updated Electronics"
+}
+
+
+### =========================================
+### 9️⃣ DELETE CATEGORY
+### =========================================
+DELETE {{baseUrl}}/categories/cmllz7coy0000b0vbst1ua94i
+Authorization: Bearer {{token}}
+
+
+#################################################
+############## PRODUCTS MODULE ##################
+#################################################
+
+### =========================================
+### 🔟 CREATE PRODUCT
+### =========================================
+POST {{baseUrl}}/products
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "name": "Laptop",
+  "sku": "LAP-1001",
+  "price": 150000,
+  "cost": 120000,
+  "stock": 10,
+  "categoryId": "cmllzc0up0003b0vb2bk21ptb"
+}
+
+
+### =========================================
+### 1️⃣1️⃣ GET ALL PRODUCTS
+### =========================================
 GET {{baseUrl}}/products
+Authorization: Bearer {{token}}
+
+
+### =========================================
+### 1️⃣2️⃣ GET PRODUCT BY ID
+### =========================================
+GET {{baseUrl}}/products/cmllzsmno0000b0vbdc7g52wq
+Authorization: Bearer {{token}}
+
+
+### =========================================
+### 1️⃣3️⃣ UPDATE PRODUCT
+### =========================================
+PATCH {{baseUrl}}/products/cmllzsmno0000b0vbdc7g52wq
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "name": "Updated Laptop",
+  "price": 155000,
+  "stock": 8
+}
+
+
+### =========================================
+### 1️⃣4️⃣ DELETE PRODUCT
+### =========================================
+DELETE {{baseUrl}}/products/cmllzsmno0000b0vbdc7g52wq
 Authorization: Bearer {{token}}
