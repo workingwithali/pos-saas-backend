@@ -234,3 +234,14 @@ Authorization: Bearer {{token}}
 
 GET {{baseUrl}}/subscriptions/status
 Authorization: Bearer {{token}}
+
+#################################################
+############## SALES INVOICE ###################
+#################################################
+
+###=========================================
+###1️⃣ DOWNLOAD SALE INVOICE (GET /sales/:id/invoice)
+###=========================================
+
+GET {{baseUrl}}/sales/cmllzzsale0001b0vb12345678/invoice
+Authorization: Bearer {{token}}
