@@ -243,5 +243,5 @@ Authorization: Bearer {{token}}
 ###1️⃣ DOWNLOAD SALE INVOICE (GET /sales/:id/invoice)
 ###=========================================
 
-GET {{baseUrl}}/sales/cmllzzsale0001b0vb12345678/invoice
+GET {{baseUrl}}/sales/cmlm33kt70003twvbko98ojgi/invoice
 Authorization: Bearer {{token}}

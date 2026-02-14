@@ -5,14 +5,7 @@ import { PrismaService } from '../prisma/prisma.service';
 export class UsersService {
   constructor(private prisma: PrismaService) { }
 
-  // ======================
-  // Find user by email
-  // ======================
-  async findByEmail(email: string) {
-    return this.prisma.user.findUnique({
-      where: { email },
-    });
-  }
+  
 
   // ======================
   // Find user by ID
@@ -21,27 +14,20 @@ export class UsersService {
     return this.prisma.user.findUnique({ where: { id } });
   }
 
+
+
   
 
   // ======================
-  // Create user (Register)
+  // Update user profile
   // ======================
-  async create(data: {
-  email: string;
-  password: string;
-  tenantId: string;
-  name: string;
-  role: "ADMIN"; // e.g., "ADMIN"
-}) {
-  return this.prisma.user.create({
-    data: {
-      email: data.email,
-      password: data.password,
-      tenantId: data.tenantId,
-      name: data.name,
-      role: data.role
-    }
-  });
-}
-
+  async update(id: string, data: { name?: string; email?: string }) {
+    return this.prisma.user.update({
+      where: { id },
+      data: {
+        name: data.name,
+        email: data.email,
+      },
+    });
+  }
 }
