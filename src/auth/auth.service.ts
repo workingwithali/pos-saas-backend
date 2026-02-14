@@ -49,7 +49,7 @@ export class AuthService {
       await tx.subscription.create({
         data: {
           tenantId: tenant.id,
-          plan: 'BASIC',
+          plan: 'TRIAL',
           isActive: true,
           expiresAt: new Date(
             Date.now() + 14 * 24 * 60 * 60 * 1000,

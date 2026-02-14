@@ -211,3 +211,26 @@ Authorization: Bearer {{token}}
 
 GET {{baseUrl}}/dashboard/low-stock
 Authorization: Bearer {{token}}
+
+#################################################
+############## SUBSCRIPTIONS MODULE ############
+#################################################
+
+###=========================================
+###1️⃣ SUBSCRIBE OR UPDATE PLAN (POST /subscriptions/subscribe)
+###=========================================
+
+POST {{baseUrl}}/subscriptions/subscribe
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+
+
+
+
+###=========================================
+###2️⃣ GET CURRENT SUBSCRIPTION STATUS (GET /subscriptions/status)
+###=========================================
+
+GET {{baseUrl}}/subscriptions/status
+Authorization: Bearer {{token}}
