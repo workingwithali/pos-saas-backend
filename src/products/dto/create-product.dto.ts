@@ -15,7 +15,7 @@ export class CreateProductDto {
 
   @IsNumber()
   @Min(0)
-  cost: number;
+  cost: number = 0;
 
   @IsNumber()
   @Min(0)

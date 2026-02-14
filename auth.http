@@ -108,7 +108,7 @@ Authorization: Bearer {{token}}
 
 {
   "name": "Laptop",
-  "sku": "LAP-1001",
+  "sku": "LAP-1002",
   "price": 150000,
   "cost": 120000,
   "stock": 10,
@@ -148,4 +148,41 @@ Authorization: Bearer {{token}}
 ### 1️⃣4️⃣ DELETE PRODUCT
 ### =========================================
 DELETE {{baseUrl}}/products/cmllzsmno0000b0vbdc7g52wq
+Authorization: Bearer {{token}}
+
+#################################################
+############## SALES MODULE #####################
+#################################################
+
+###=========================================
+###1️⃣ CREATE SALE (POST /sales)
+###=========================================
+
+POST {{baseUrl}}/sales
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "items": [
+    { "productId": "cmlm20n0m0001a4vbrftzfcpo", "quantity": 2 },
+    { "productId": "cmlm0teou0001b0vbc6cz7czv", "quantity": 1 }
+  ],
+  "paymentMethod": "CASH",
+  "discountPercent": 5
+}
+
+
+
+####=========================================
+###2️⃣ GET ALL SALES HISTORY (GET /sales)
+###=========================================
+
+GET {{baseUrl}}/sales
+Authorization: Bearer {{token}}
+
+###=========================================
+###3️⃣ GET SALE BY ID (GET /sales/:id)
+###=========================================
+
+GET {{baseUrl}}/sales/cmlm33kt70003twvbko98ojgi
 Authorization: Bearer {{token}}
