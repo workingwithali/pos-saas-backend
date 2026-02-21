@@ -36,7 +36,7 @@ Content-Type: {{contentType}}
 ### =========================================
 ### 3️⃣ SAVE TOKEN (PASTE AFTER LOGIN)
 ### =========================================
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbWxsbDI5YmMwMDAxOXd2YmNybDBua2pwIiwidGVuYW50SWQiOiJjbWxsbDI5NGgwMDAwOXd2YmFieGlvY2FtIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzcxMDUyNTc4LCJleHAiOjE3NzExMzg5Nzh9.jgK9gaiqE35-N1gmDi0CaLjfMMtHtgFfBL_nc3DHDjw
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbWxsbDI5YmMwMDAxOXd2YmNybDBua2pwIiwidGVuYW50SWQiOiJjbWxsbDI5NGgwMDAwOXd2YmFieGlvY2FtIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzcxNjU2NzA0LCJleHAiOjE3NzE3NDMxMDR9.M3W1AvvDCGtZdq_9P__ss0yrX9ajO5hiL4LOKVJLV0Y
 
 
 ### =========================================
@@ -58,7 +58,7 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
 {
-  "name": "Electronics"
+  "name": "moblile"
 }
 
 
@@ -72,19 +72,19 @@ Authorization: Bearer {{token}}
 ### =========================================
 ### 7️⃣ GET CATEGORY BY ID
 ### =========================================
-GET {{baseUrl}}/categories/cmllz7coy0000b0vbst1ua94i
+GET {{baseUrl}}/categories/cmllzc0up0003b0vb2bk21ptb
 Authorization: Bearer {{token}}
 
 
 ### =========================================
 ### 8️⃣ UPDATE CATEGORY
 ### =========================================
-PATCH {{baseUrl}}/categories/cmllz7coy0000b0vbst1ua94i
+PATCH {{baseUrl}}/categories/cmllzc0up0003b0vb2bk21ptb
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
 {
-  "name": "Updated Electronics"
+  "name": "moblile"
 }
 
 
