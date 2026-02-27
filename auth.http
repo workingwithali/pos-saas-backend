@@ -16,7 +16,7 @@ Content-Type: {{contentType}}
   "OwnerName": "Ali",
   "currency": "PKR",
   "taxRate": 15,
-  "email": "admin@ali.com",
+  "email": "admin@ahli.com",
   "password": "password123"
 }
 
@@ -36,7 +36,7 @@ Content-Type: {{contentType}}
 ### =========================================
 ### 3️⃣ SAVE TOKEN (PASTE AFTER LOGIN)
 ### =========================================
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbW0zN3pxaDYwMDAxMXd2YmI5cTBrM3M3IiwidGVuYW50SWQiOiJjbW0zN3pxYWEwMDAwMXd2Ymoxd2hpamNvIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzcyMTYxNzIwLCJleHAiOjE3NzIxNjI2MjB9.8nM42dkNOIrO-eh8LNBtDwLsoswFtaynXJeZZcpdlyQ
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbW0zN3pxaDYwMDAxMXd2YmI5cTBrM3M3IiwibmFtZSI6ImFsaSIsImVtYWlsIjoiYWxpcmFzaGlkMjAyMGVAZ21haWwuY29tIiwidGVuYW50SWQiOiJjbW0zN3pxYWEwMDAwMXd2Ymoxd2hpamNvIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzcyMTg2ODc4LCJleHAiOjE3NzIxODc3Nzh9.0yztkYoowIBMgH7NZ6LBdzTUDiNKSrsf9JqgsbeFL_k
 
 
 ### =========================================
@@ -47,7 +47,7 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
 {
-  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbWx5c25jMDEwMDAxMzR2YmwwMjg2bWRtIiwidGVuYW50SWQiOiJjbWx5c25idDIwMDAwMzR2Ym90Y2pmemkyIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzcxODI4NjU1LCJleHAiOjE3NzI0MzM0NTV9.MIR55VEL5bPRTiZSiU3cIAyyBmfGV_6ScZOypXSaj10"
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbW0zN3pxaDYwMDAxMXd2YmI5cTBrM3M3IiwibmFtZSI6ImFsaSIsImVtYWlsIjoiYWxpcmFzaGlkMjAyMGVAZ21haWwuY29tIiwidGVuYW50SWQiOiJjbW0zN3pxYWEwMDAwMXd2Ymoxd2hpamNvIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzcyMTg2ODc4LCJleHAiOjE3NzI3OTE2Nzh9.taz3ywFsgo17opXvoyGamw5PiQDB28hEKUzQEqNqClQ"
 }
 
 

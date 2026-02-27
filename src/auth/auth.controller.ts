@@ -7,60 +7,102 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
-import express from 'express';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { JwtAuthGuard } from '../common/guards/jwt-auth/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '../common/decorators/current-user.decorator/current-user.decorator';
+import * as Express from 'express';
+import { ref } from 'process';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) { }
+  constructor(private readonly authService: AuthService) {}
 
+  // ================= SIGNUP =================
   @Post('signup')
-  signup(@Body() dto: RegisterDto, @Res({ passthrough: true }) res: express.Response) {
-    return this.authService.signup(dto, res);
+  async signup(
+    @Body() dto: RegisterDto,
+    @Res({ passthrough: true }) res: Express.Response,
+  ) {
+    const tokens = await this.authService.signup(dto);
+
+    res.cookie('refreshToken', tokens.refreshToken, {
+      httpOnly: true,
+      secure: false, // true in production (HTTPS)
+      sameSite: 'strict',
+      path: '/',
+    });
+
+    return { accessToken: tokens.accessToken };
   }
 
+  // ================= LOGIN =================
   @Post('login')
-  login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: express.Response) {
-    return this.authService.login(dto, res);
+  async login(
+    @Body() dto: LoginDto,
+    @Res({ passthrough: true }) res: Express.Response,
+  ) {
+    const tokens = await this.authService.login(dto);
+
+    res.cookie('refreshToken', tokens.refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'strict',
+      path: '/',
+    });
+
+    return { accessToken: tokens.accessToken };
   }
 
+  // ================= REFRESH =================
   @Post('refresh')
-  async refresh(@Req() req: express.Request, @Res({ passthrough: true }) res: express.Response) {
-    const refreshToken = req.cookies.refreshToken;
-    return this.authService.refreshTokens(refreshToken, res);
+  async refresh(
+    @Req() req: Express.Request,
+    @Res({ passthrough: true }) res: Express.Response,
+  ) {
+    const refreshToken = req.cookies?.refreshToken;
+
+    const tokens = await this.authService.refreshTokens(refreshToken);
+
+    res.cookie('refreshToken', tokens.refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'strict',
+      path: '/',
+    });
+
+    return { accessToken: tokens.accessToken };
   }
 
+  // ================= LOGOUT =================
   @Post('logout')
-  async logout(@Req() req: express.Request, @Res() res: express.Response) {
+  async logout(
+    @Req() req: Express.Request,
+    @Res({ passthrough: true }) res: Express.Response,
+  ) {
     const refreshToken = req.cookies?.refreshToken;
-    console.log("Cookies:", req.cookies);
-    console.log("Headers:", req.headers.cookie);
+    // console.log('Logout called with refreshToken:', refreshToken);
+    await this.authService.logout(refreshToken);
+    console.log('Refresh token invalidated in service');
 
-    if (!refreshToken) {
-      return res.status(200).json({ message: 'Already logged out' });
-    }
-    console.log('Received refresh token for logout:', refreshToken);
-    await this.authService.logout(refreshToken, res);
-    console.log('Refresh token invalidated, clearing cookie');
     res.clearCookie('refreshToken', {
       httpOnly: true,
       secure: false,
       sameSite: 'strict',
+      path: '/',
     });
-    console.log('Refresh token cookie cleared');
 
-    return res.json({ message: 'Logged out successfully' });
+    return { message: 'Logged out successfully' };
   }
+
+  // ================= ME =================
   @Get('me')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   me(@CurrentUser() user: any) {
-    return user.name;
+    return user;
   }
 }
