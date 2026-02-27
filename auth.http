@@ -1,7 +1,7 @@
 ### =========================================
 ### BASE CONFIG
 ### =========================================
-@baseUrl = http://localhost:3000
+@baseUrl = http://localhost:5000
 @contentType = application/json
 
 
@@ -13,10 +13,10 @@ Content-Type: {{contentType}}
 
 {
   "shopName": "Ali Electronics",
-  "OwnerName": "new admin",
+  "OwnerName": "Ali",
   "currency": "PKR",
   "taxRate": 15,
-  "email": "admin@alilctrnics.com",
+  "email": "admin@ali.com",
   "password": "password123"
 }
 
@@ -28,19 +28,38 @@ POST {{baseUrl}}/auth/login
 Content-Type: {{contentType}}
 
 {
-  "email": "admin@alilctrnics.com",
-  "password": "password123"
+  "email": "alirashid2020e@gmail.com",
+  "password": "123456"
 }
 
 
 ### =========================================
 ### 3️⃣ SAVE TOKEN (PASTE AFTER LOGIN)
 ### =========================================
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbWxsbDI5YmMwMDAxOXd2YmNybDBua2pwIiwidGVuYW50SWQiOiJjbWxsbDI5NGgwMDAwOXd2YmFieGlvY2FtIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzcxNjU2NzA0LCJleHAiOjE3NzE3NDMxMDR9.M3W1AvvDCGtZdq_9P__ss0yrX9ajO5hiL4LOKVJLV0Y
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbW0zN3pxaDYwMDAxMXd2YmI5cTBrM3M3IiwidGVuYW50SWQiOiJjbW0zN3pxYWEwMDAwMXd2Ymoxd2hpamNvIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzcyMTYxNzIwLCJleHAiOjE3NzIxNjI2MjB9.8nM42dkNOIrO-eh8LNBtDwLsoswFtaynXJeZZcpdlyQ
 
 
 ### =========================================
-### 4️⃣ GET CURRENT USER
+### 4️⃣ REFRESH TOKEN
+### =========================================
+POST {{baseUrl}}/auth/refresh
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbWx5c25jMDEwMDAxMzR2YmwwMjg2bWRtIiwidGVuYW50SWQiOiJjbWx5c25idDIwMDAwMzR2Ym90Y2pmemkyIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzcxODI4NjU1LCJleHAiOjE3NzI0MzM0NTV9.MIR55VEL5bPRTiZSiU3cIAyyBmfGV_6ScZOypXSaj10"
+}
+
+
+### =========================================
+### 5️⃣ LOGOUT
+### =========================================
+POST {{baseUrl}}/auth/logout
+Authorization: Bearer {{token}}
+
+
+### =========================================
+### 6️⃣ GET CURRENT USER
 ### =========================================
 GET {{baseUrl}}/auth/me
 Authorization: Bearer {{token}}
