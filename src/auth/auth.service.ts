@@ -47,6 +47,18 @@ export class AuthService {
       },
     });
 
+    const trialExpiresAt = new Date();
+    trialExpiresAt.setDate(trialExpiresAt.getDate() + 14);
+
+    await this.prisma.subscription.create({
+      data: {
+        tenantId: tenant.id,
+        plan: 'TRIAL',
+        isActive: true,
+        expiresAt: trialExpiresAt,
+      },
+    });
+
     return this.generateTokens(user);
   }
 
