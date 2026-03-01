@@ -6,10 +6,11 @@ import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth/jwt-auth.guard';
 import { TenantGuard } from 'src/common/guards/tenant/tenant.guard';
 import { Tenant } from 'src/common/decorators/tenant.decorator/tenant.decorator';
+import { SubscriptionGuard } from 'src/common/guards/subscription/subscription.guard';
 
 @ApiTags('Categories')
 @Controller('categories')
-@UseGuards(JwtAuthGuard, TenantGuard)
+@UseGuards(JwtAuthGuard, TenantGuard, SubscriptionGuard)
 export class CategoriesController {
     constructor(private readonly categoriesService: CategoriesService) { }
 
