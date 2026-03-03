@@ -11,12 +11,11 @@ import { SalesModule } from './sales/sales.module';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { CategoriesModule } from './categories/categories.module';
 import { DashboardModule } from './dashboard/dashboard.module';
-import configuration from './config/configuration';
 
 @Module({
   imports: [
     PrismaModule, AuthModule, TenantsModule, UsersModule, ProductsModule, SalesModule, SubscriptionsModule, CategoriesModule, DashboardModule,
-    ConfigModule.forRoot({ isGlobal: true, load: [configuration], }),
+    ConfigModule.forRoot({ isGlobal: true }),
     ConfigModule,
   ],
   controllers: [AppController],
