@@ -151,13 +151,11 @@ export class AuthService {
   // ================= LOGOUT =================
   async logout(refreshToken: string) {
     if (!refreshToken) return;
-    console.log('Logout called with refreshToken:', refreshToken);
 
     const tokens = await this.prisma.refreshToken.findMany();
 
     for (const t of tokens) {
       const match = await bcrypt.compare(refreshToken, t.tokenHash);
-      console.log(`Comparing token with ID ${t.id}: match=${match}`);
       if (match) {
         await this.prisma.refreshToken.delete({
           where: { id: t.id },

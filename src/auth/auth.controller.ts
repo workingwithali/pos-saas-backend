@@ -84,9 +84,7 @@ export class AuthController {
     @Res({ passthrough: true }) res: Express.Response,
   ) {
     const refreshToken = req.cookies?.refreshToken;
-    // console.log('Logout called with refreshToken:', refreshToken);
     await this.authService.logout(refreshToken);
-    console.log('Refresh token invalidated in service');
 
     res.clearCookie('refreshToken', {
       httpOnly: true,
