@@ -8,15 +8,19 @@ export class RegisterDto {
 
   @ApiProperty()
   @IsString()
+  OwnerName: string;
+
+  @ApiProperty()
+  @IsString()
+  address: string;
+
+  @ApiProperty()
+  @IsString()
   currency: string;
 
   @ApiProperty()
   @IsNumber()
   taxRate: number;
-  
-  @ApiProperty()
-  @IsString()
-  OwnerName: string;
 
   @ApiProperty()
   @IsEmail()

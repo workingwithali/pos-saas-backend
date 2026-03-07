@@ -34,6 +34,7 @@ export class AuthService {
         name: dto.shopName,
         currency: dto.currency,
         taxRate: dto.taxRate,
+        address: dto.address,
       },
     });
 
