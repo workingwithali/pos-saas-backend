@@ -6,6 +6,11 @@ export class CreateTenantDto {
     @IsString()
     name: string;
 
+    @ApiProperty({ required: false })
+    @IsString()
+    @IsOptional()
+    address?: string;
+
     @ApiProperty({ required: false, default: 'USD' })
     @IsString()
     @IsOptional()

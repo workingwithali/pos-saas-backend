@@ -9,6 +9,7 @@ datasource db {
 model Tenant {
   id            String         @id @default(cuid())
   name          String
+  address       String?
   currency      String         @default("USD")
   taxRate       Float          @default(0)
   createdAt     DateTime       @default(now())
